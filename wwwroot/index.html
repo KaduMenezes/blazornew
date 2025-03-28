@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blazor2</title>
-    <base href="/" />
+    <base href="/blazornew/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -27,6 +27,21 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        // Redirecionamento para tratamento de rotas no GitHub Pages
+        const baseHref = document.querySelector('base')?.getAttribute('href') ?? '';
+        const appPath = baseHref.endsWith('/') ? baseHref.slice(0, -1) : baseHref;
+
+        if (appPath && window.location.pathname === '/') {
+            window.history.replaceState({}, document.title, appPath + '/index.html');
+        } else if (appPath && window.location.pathname.startsWith(appPath + '/') && window.location.pathname.length > appPath.length + 1) {
+            // Manter o caminho relativo para o Blazor
+        } else if (appPath && window.location.pathname === appPath) {
+            window.history.replaceState({}, document.title, appPath + '/index.html');
+        } else if (!appPath && window.location.pathname === '/') {
+            window.history.replaceState({}, document.title, '/index.html');
+        }
+    </script>
 </body>
 
 </html>
