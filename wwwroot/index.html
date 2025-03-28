@@ -28,18 +28,13 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
-        // Redirecionamento para tratamento de rotas no GitHub Pages
         const baseHref = document.querySelector('base')?.getAttribute('href') ?? '';
         const appPath = baseHref.endsWith('/') ? baseHref.slice(0, -1) : baseHref;
 
         if (appPath && window.location.pathname === '/') {
             window.history.replaceState({}, document.title, appPath + '/index.html');
-        } else if (appPath && window.location.pathname.startsWith(appPath + '/') && window.location.pathname.length > appPath.length + 1) {
-            // Manter o caminho relativo para o Blazor
-        } else if (appPath && window.location.pathname === appPath) {
-            window.history.replaceState({}, document.title, appPath + '/index.html');
-        } else if (!appPath && window.location.pathname === '/') {
-            window.history.replaceState({}, document.title, '/index.html');
+        } else if (appPath && !window.location.pathname.startsWith(appPath + '/') && window.location.pathname !== appPath + '/index.html') {
+            window.history.replaceState({}, document.title, appPath + window.location.pathname);
         }
     </script>
 </body>
